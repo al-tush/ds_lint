@@ -176,10 +176,6 @@ class AvoidNonTranslatedStringRule extends DartLintRule {
         var s = (node.realTarget as StringLiteral).stringValue;
         if (s == null) return;
 
-        if (s.startsWith("'") && s.endsWith("'") || s.startsWith('"') && s.endsWith('"')) {
-          s = s.substring(1, s.length - 1);
-        }
-
         if (_reader.transl.isEmpty) {
           reporter.atNode(
               node,
@@ -192,6 +188,11 @@ class AvoidNonTranslatedStringRule extends DartLintRule {
               ));
           return;
         }
+
+        if (s.startsWith("'") && s.endsWith("'") || s.startsWith('"') && s.endsWith('"')) {
+          s = s.substring(1, s.length - 1);
+        }
+        s = s.replaceAll('\n', '\\n');
 
         if (_reader.transl.contains(s)) return;
         reporter.atNode(
