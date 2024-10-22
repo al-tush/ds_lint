@@ -19,7 +19,8 @@ class _DSLintPlugin extends PluginBase {
       const AvoidCupertinoPackage(),
       const AvoidRelativeImports(),
       AvoidNonTranslatedStringRule(
-        tsvName: configs.rules[AvoidNonTranslatedStringRule.name]?.json['tsv_file'] as String?,
+        tsvName: configs.rules[AvoidNonTranslatedStringRule.name]
+            ?.json['tsv_file'] as String?,
         configs: configs,
       ),
     ];
@@ -66,7 +67,8 @@ class _AvoidCupertinoPackageFix extends DartFix {
     context.registry.addImportDirective((node) {
       if (!analysisError.sourceRange.intersects(node.sourceRange)) return;
 
-      final changeBuilder = reporter.createChangeBuilder(message: 'Remove cupertino.dart import', priority: 100);
+      final changeBuilder = reporter.createChangeBuilder(
+          message: 'Remove cupertino.dart import', priority: 100);
 
       var range = node.sourceRange;
       range = SourceRange(range.offset, range.length + 1);
@@ -116,7 +118,8 @@ class TsvReader {
   void checkTsvActual() {
     if (owner.tsvName == null) {
       _lastTsvCheck = DateTime.now().add(Duration(minutes: 1));
-      throw Exception('tsv_file should be assigned for ${AvoidNonTranslatedStringRule.name} in analysis_options.yaml');
+      throw Exception(
+          'tsv_file should be assigned for ${AvoidNonTranslatedStringRule.name} in analysis_options.yaml');
     }
 
     if (_lastTsvCheck.add(Duration(seconds: 1)).isAfter(DateTime.now())) return;
@@ -182,14 +185,16 @@ class AvoidNonTranslatedStringRule extends DartLintRule {
               LintCode(
                 name: name,
                 problemMessage: 'No tsv file found',
-                correctionMessage: 'Add a tsv file to the rule in analysis_options.yaml',
+                correctionMessage:
+                    'Add a tsv file to the rule in analysis_options.yaml',
                 errorSeverity: ErrorSeverity.WARNING,
                 uniqueName: name,
               ));
           return;
         }
 
-        if (s.startsWith("'") && s.endsWith("'") || s.startsWith('"') && s.endsWith('"')) {
+        if (s.startsWith("'") && s.endsWith("'") ||
+            s.startsWith('"') && s.endsWith('"')) {
           s = s.substring(1, s.length - 1);
         }
         s = s.replaceAll('\n', '\\n');
@@ -200,7 +205,8 @@ class AvoidNonTranslatedStringRule extends DartLintRule {
             LintCode(
               name: name,
               problemMessage: 'Not found in easy_localization file: $s',
-              correctionMessage: 'Add this string to easy_localization translation',
+              correctionMessage:
+                  'Add this string to easy_localization translation',
               errorSeverity: ErrorSeverity.WARNING,
               uniqueName: name,
             ));
