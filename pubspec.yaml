@@ -1,6 +1,7 @@
 name: ds_lint
 description: sect.dev linter
 version: 0.1.0
+repository: https://github.com/al-tush/ds_lint
 
 environment:
   sdk: ">=3.5.0 <4.0.0"
