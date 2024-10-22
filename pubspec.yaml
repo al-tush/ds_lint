@@ -1,6 +1,6 @@
 name: ds_lint
 description: Extension of linter rules for sect.dev flutter projects
-version: 0.1.0
+version: 0.1.1
 homepage: https://github.com/al-tush/ds_lint
 
 environment:

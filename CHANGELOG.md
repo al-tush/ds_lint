@@ -1,3 +1,6 @@
+## 0.1.1
+- bugfixes
+
 ## 0.1.0
 - initial development release
 - added rules:
