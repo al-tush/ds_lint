@@ -69,11 +69,7 @@ class _AvoidCupertinoPackageFix extends DartFix {
       final changeBuilder = reporter.createChangeBuilder(message: 'Remove cupertino.dart import', priority: 100);
 
       var range = node.sourceRange;
-      if (range.offset > 0) {
-        range = range.getExpanded(1);
-      } else {
-        range = SourceRange(range.offset, range.length + 1);
-      }
+      range = SourceRange(range.offset, range.length + 1);
       changeBuilder.addDartFileEdit((builder) {
         builder.addSimpleReplacement(range, '');
       });
