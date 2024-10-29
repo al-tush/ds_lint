@@ -175,7 +175,6 @@ class AvoidNonTranslatedStringRule extends DartLintRule {
       return;
     }
 
-
     context.registry.addMethodInvocation((node) {
       if (node.methodName.name == 'tr') {
         if (node.realTarget is! StringLiteral) return;
