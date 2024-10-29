@@ -8,7 +8,7 @@ import 'package:custom_lint_builder/custom_lint_builder.dart';
 
 PluginBase createPlugin() => _DSLintPlugin();
 
-// inspired by https://pub.dev/packages/l10n_lint
+// inspired by https://pub.dev/packages/l10n_lint and https://github.com/altive/altive_lints
 
 class _DSLintPlugin extends PluginBase {
   _DSLintPlugin();
@@ -22,6 +22,7 @@ class _DSLintPlugin extends PluginBase {
         tsvName: configs.rules[AvoidNonTranslatedStringRule.name]
             ?.json['tsv_file'] as String?,
       ),
+      const AvoidTrForNonStringRule(),
     ];
   }
 }
@@ -212,6 +213,34 @@ class AvoidNonTranslatedStringRule extends DartLintRule {
               errorSeverity: ErrorSeverity.WARNING,
               uniqueName: name,
             ));
+      }
+    });
+  }
+}
+
+class AvoidTrForNonStringRule extends DartLintRule {
+  const AvoidTrForNonStringRule() : super(code: _code);
+
+  static const name = 'avoid_tr_for_non_string_ds';
+
+  static const _code = LintCode(
+    name: name,
+    problemMessage: 'tr() for non-string argument',
+    correctionMessage: 'Prefer to apply .tr() to sting constants directly',
+    errorSeverity: ErrorSeverity.INFO,
+    uniqueName: name,
+  );
+
+  @override
+  void run(
+    CustomLintResolver resolver,
+    ErrorReporter reporter,
+    CustomLintContext context,
+  ) {
+    context.registry.addMethodInvocation((node) {
+      if (node.methodName.name != 'tr') return;
+      if (node.realTarget is! StringLiteral) {
+        reporter.atNode(node, _code);
       }
     });
   }
