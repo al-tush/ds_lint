@@ -171,7 +171,13 @@ class AvoidNonTranslatedStringRule extends DartLintRule {
     ErrorReporter reporter,
     CustomLintContext context,
   ) {
-    _reader.checkTsvActual();
+    try {
+      _reader.checkTsvActual();
+    } catch (e) {
+      print('$e');
+      return;
+    }
+
 
     context.registry.addMethodInvocation((node) {
       if (node.methodName.name == 'tr') {
