@@ -21,7 +21,6 @@ class _DSLintPlugin extends PluginBase {
       AvoidNonTranslatedStringRule(
         tsvName: configs.rules[AvoidNonTranslatedStringRule.name]
             ?.json['tsv_file'] as String?,
-        configs: configs,
       ),
     ];
   }
@@ -144,7 +143,6 @@ class TsvReader {
 class AvoidNonTranslatedStringRule extends DartLintRule {
   AvoidNonTranslatedStringRule({
     required this.tsvName,
-    required this.configs,
   }) : super(code: _code);
 
   /// Metadata about the warning that will show-up in the IDE.
@@ -153,11 +151,9 @@ class AvoidNonTranslatedStringRule extends DartLintRule {
   final String? tsvName;
   late final _reader = TsvReader(owner: this);
 
-  final CustomLintConfigs configs;
-
   static const name = 'avoid_non_translated_string_ds';
 
-  static final _code = LintCode(
+  static const _code = LintCode(
     name: name,
     problemMessage: 'Not found in easy_localization file',
     correctionMessage: 'Add this string to easy_localization translation',
