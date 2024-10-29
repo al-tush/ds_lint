@@ -1,0 +1,17 @@
+include: package:flutter_lints/flutter.yaml
+
+linter:
+  rules:
+    unawaited_futures: true
+    avoid_void_async: true
+    prefer_single_quotes: true
+
+custom_lint:
+  rules:
+    - avoid_non_translated_string_ds:
+      tsv_file: full_path_to_localization.tsv
+    - avoid_relative_imports_ds: false
+
+analyzer:
+  plugins:
+    - custom_lint
