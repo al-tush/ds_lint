@@ -1,6 +1,6 @@
 name: ds_lint
 description: Extension of linter rules for altush Flutter projects. Implements imports check, easy_localization, etc
-version: 0.1.1
+version: 0.1.2
 homepage: https://github.com/al-tush/ds_lint
 
 environment:

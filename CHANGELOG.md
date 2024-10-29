@@ -1,3 +1,8 @@
+## 0.1.2
+- add avoid_tr_for_non_string_ds rule
+- fix avoid_non_translated_string_ds exception handling (use "dart run custom_lint" command for diagnostics)
+- add example
+
 ## 0.1.1
 - bugfixes
 
