@@ -5,6 +5,7 @@ import 'package:analyzer/error/error.dart' hide LintCode;
 import 'package:analyzer/error/listener.dart';
 import 'package:analyzer/source/source_range.dart';
 import 'package:custom_lint_builder/custom_lint_builder.dart';
+import 'package:ds_lint/src/string_utils.dart';
 
 PluginBase createPlugin() => _DSLintPlugin();
 
@@ -136,7 +137,7 @@ class TsvReader {
       if (idx == 0) continue;
       final parts = line.split('\t');
       if (parts[0].trim().isEmpty) continue;
-      transl.add(parts[0]);
+      transl.add(unescapeStr(parts[0]));
     }
   }
 }
@@ -199,7 +200,6 @@ class AvoidNonTranslatedStringRule extends DartLintRule {
             s.startsWith('"') && s.endsWith('"')) {
           s = s.substring(1, s.length - 1);
         }
-        s = s.replaceAll('\n', '\\n');
 
         if (_reader.transl.contains(s)) return;
         reporter.atNode(
