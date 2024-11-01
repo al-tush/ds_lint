@@ -172,6 +172,7 @@ class AvoidNonTranslatedStringRule extends DartLintRule {
     try {
       _reader.checkTsvActual();
     } catch (e) {
+      // ignore: avoid_print
       print('$e');
       return;
     }

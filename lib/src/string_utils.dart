@@ -10,6 +10,6 @@ String unescapeStr(String s) {
       .replaceAll(r'\n', '\n')
       .replaceAll(r'\r', '\r')
       .replaceAll(r'\\', '\\')
-      .replaceAll(r'\"', '\"')
-      .replaceAll(r"\'", "\'");
+      .replaceAll(r'\"', '"')
+      .replaceAll(r"\'", "'");
 }
