@@ -216,6 +216,57 @@ class AvoidNonTranslatedStringRule extends DartLintRule {
       }
     });
   }
+  @override
+  List<Fix> getFixes() => [_AvoidNonTranslatedStringFix(reader: _reader)];
+}
+
+class _AvoidNonTranslatedStringFix extends DartFix {
+  final TsvReader reader;
+
+  _AvoidNonTranslatedStringFix({
+    required this.reader,
+  });
+
+  @override
+  void run(CustomLintResolver resolver,
+      ChangeReporter reporter,
+      CustomLintContext context,
+      AnalysisError analysisError,
+      List<AnalysisError> others,) {
+    try {
+      reader.checkTsvActual();
+    } catch (e) {
+      // ignore: avoid_print
+      print('$e');
+      return;
+    }
+
+    context.registry.addMethodInvocation((node) {
+      if (!analysisError.sourceRange.intersects(node.sourceRange)) return;
+      if (node.methodName.name != 'tr') return;
+      if (node.realTarget is! StringLiteral) return;
+      var s = (node.realTarget as StringLiteral).stringValue;
+      if (s == null) return;
+
+      if (s.startsWith("'") && s.endsWith("'") ||
+          s.startsWith('"') && s.endsWith('"')) {
+        s = s.substring(1, s.length - 1);
+      }
+
+      reader.checkTsvActual();
+      if (reader.transl.contains(s)) return;
+
+      final changeBuilder = reporter.createChangeBuilder(
+          message: 'Add to tsv file', priority: 100);
+
+      changeBuilder.addGenericFileEdit((builder) async {
+        final endOfFile = 4 * 1024 * 1024 * 1024; // %)
+        builder.addSimpleInsertion(endOfFile, '\n$s');
+      },
+        customPath: reader.owner.tsvName!,
+      );
+    });
+  }
 }
 
 class AvoidTrForNonStringRule extends DartLintRule {
