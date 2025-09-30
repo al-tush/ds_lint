@@ -1,3 +1,5 @@
+## 0.1.4
+
 ## 0.1.3
 - fix escape chars processing in easy_localization strings
 - add linter rules to project
